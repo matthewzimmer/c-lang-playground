@@ -18,6 +18,10 @@ struct heapElement {
 };
 typedef struct heapElement HeapElement;
 
+void printHeapElement(HeapElement ele, int A[]) {
+  printf("E: %d:%d     P: %d:%d     L: %d:%d     R: %d:%d\n", ele.num, A[ele.num], ele.parent->num, A[ele.parent->num], ele.left->num, A[ele.left->num], ele.right->num, A[ele.right->num]);
+}
+
 HeapElement BuildHeapElement(int i) {
   HeapElement ele, parent, left, right;
 
@@ -65,26 +69,6 @@ void Heapify(int A[], int i, int heapSize) {
 
 /*
  * Given an unsorted array A, make A a heap.
- *
- * Crude Analysis of BuildHeap()
- *
- *   * Each call to Heapify() takes O(log n) time
- *   * There are O(n) such calls:
- *
- *        floor(n/2) = floor(0.5n) = O(n)
- *
- *   * We started at the middle of the array and called Heapify
- *     and so the total running time is O(n log n)
- *
- *   * BuildHeap doesn't GIVE US a sorted array. We need
- *     to do more work afterward.
- *
- *   * Is O(n log n) a correct asymptotic upper bound? is this an asymptotically tight bound?
- *
- *   * Claim: A tighter bound is actually O(n)
- *
- *     Fact 1: an n-element heap has at most ceil(n/(2^(h+1)) nodes of height h.
- *             Using this fact, we can show that BuildHeap() takes O(n) time.
  **/
 void BuildHeap(int A[], int N) {
   int heapSize = N;
@@ -95,13 +79,25 @@ void BuildHeap(int A[], int N) {
     Heapify(A, i-1, N);
   }
 
-  printf("Index %d\n", i);
   for(int i = 0; i < N; i++) {
     printf("%d ", A[i]);
   }
 }
 
 int main() {
+  Tree root;
+  Tree l, r;
+
+  l.num = 23;
+
+  root.left = NULL;
+  root.left = &l;
+
+//  printf("Root Node has value: %d\n", root.left->num);
+
+  root.left->num = 9;
+//  printf("Root Node has value: %d\n", root.left->num);
+
   int A[] = {3,8,10,11,6,9,4,2,5};
   int N = sizeof(A) / sizeof(int);
 
