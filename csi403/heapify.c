@@ -1,14 +1,5 @@
 #include <stdio.h>
 #include <string.h>
-#include <math.h>
-
-struct tree {
-    int num;
-    struct tree* left;
-    struct tree* right;
-};
-
-typedef struct tree Tree;
 
 struct heapElement {
     int num;
@@ -48,13 +39,13 @@ void Heapify(int A[], int i, int heapSize) {
   l = ele.left->num;
   r = ele.right->num;
 
-  if(l <= heapSize && A[l] > A[i]) {
+  if(l < heapSize && A[l] > A[i]) {
     largest = l;
   } else {
     largest = i;
   }
 
-  if(r <= heapSize && A[r] > A[largest]) {
+  if(r < heapSize && A[r] > A[largest]) {
     largest = r;
   }
   if(largest != i) {
@@ -63,7 +54,7 @@ void Heapify(int A[], int i, int heapSize) {
   }
 }
 
-/*
+/**
  * Given an unsorted array A, make A a heap.
  *
  * Crude Analysis of BuildHeap()
@@ -88,14 +79,41 @@ void Heapify(int A[], int i, int heapSize) {
  **/
 void BuildHeap(int A[], int N) {
   int heapSize = N;
-  printf("Size of Heap = %d\n\n", heapSize);
+  printf("Size of Heap = %d\n", heapSize);
 
   for(int i = (N/2); i > 0; i--) {
-    printf("Index %d\n", i);
     Heapify(A, i-1, N);
   }
 
-  printf("Index %d\n", i);
+  printf("\n\nBuildHeap for %d\n", N);
+  for(int i = 0; i < N; i++) {
+    printf("%d ", A[i]);
+  }
+}
+
+/**
+ * Given BuildHeap(), an in-place sorting algorithm is easily constructed:
+ *
+ *   - Maximum element is at A[1] (actually, A[0] in C land)
+ *
+ *   - Discard by swapping with element at A[n]
+ *     * Decrement heap_size[A]
+ *     * A[n] now contains correct value
+ *
+ *   - Restore heap property at A[1] by calling Heapify()
+ *
+ *   - Repeat, always swapping A[1] for A[heap_size(A)]
+ */
+void HeapSort(int A[], int N) {
+  BuildHeap(A, N);
+  int heapSize = N;
+  for(int i = N; i > 0; i--) {
+    Swap(A, 0, i-1);
+    heapSize -= 1;
+    Heapify(A, 0, heapSize);
+  }
+
+  printf("\n\nHeapSort Complete\n");
   for(int i = 0; i < N; i++) {
     printf("%d ", A[i]);
   }
@@ -105,5 +123,5 @@ int main() {
   int A[] = {3,8,10,11,6,9,4,2,5};
   int N = sizeof(A) / sizeof(int);
 
-  BuildHeap(A, N);
+  HeapSort(A, N);
 }
