@@ -11,7 +11,7 @@ struct tree {
 typedef struct tree Tree;
 
 struct heapElement {
-    int num;
+    int data;
     struct heapElement* parent;
     struct heapElement* left;
     struct heapElement* right;
@@ -19,7 +19,7 @@ struct heapElement {
 typedef struct heapElement HeapElement;
 
 void printHeapElement(HeapElement ele, int A[]) {
-  printf("E: %d:%d     P: %d:%d     L: %d:%d     R: %d:%d\n", ele.num, A[ele.num], ele.parent->num, A[ele.parent->num], ele.left->num, A[ele.left->num], ele.right->num, A[ele.right->num]);
+  printf("E: %d:%d     P: %d:%d     L: %d:%d     R: %d:%d\n", ele.data, A[ele.data], ele.parent->data, A[ele.parent->data], ele.left->data, A[ele.left->data], ele.right->data, A[ele.right->data]);
 }
 
 HeapElement BuildHeapElement(int i) {
@@ -28,11 +28,11 @@ HeapElement BuildHeapElement(int i) {
   ele.parent = &parent;
   ele.left = &left;
   ele.right = &right;
-  ele.num = i;
+  ele.data = i;
 
-  parent.num = ((i+1) / 2)-1;
-  left.num = (2 * (i+1))-1;
-  right.num = (2 * (i+1) + 1)-1;
+  parent.data = ((i+1) / 2)-1;
+  left.data = (2 * (i+1))-1;
+  right.data = (2 * (i+1) + 1)-1;
 
   return ele;
 }
@@ -48,9 +48,9 @@ void Heapify(int A[], int i, int heapSize) {
 
   int p, l, r, largest;
 
-  p = ele.parent->num;
-  l = ele.left->num;
-  r = ele.right->num;
+  p = ele.parent->data;
+  l = ele.left->data;
+  r = ele.right->data;
 
   if(l <= heapSize && A[l] > A[i]) {
     largest = l;
@@ -93,10 +93,10 @@ int main() {
   root.left = NULL;
   root.left = &l;
 
-//  printf("Root Node has value: %d\n", root.left->num);
+//  printf("Root Node has value: %d\n", root.left->data);
 
   root.left->num = 9;
-//  printf("Root Node has value: %d\n", root.left->num);
+//  printf("Root Node has value: %d\n", root.left->data);
 
   int A[] = {3,8,10,11,6,9,4,2,5};
   int N = sizeof(A) / sizeof(int);

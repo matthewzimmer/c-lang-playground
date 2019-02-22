@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 struct heapElement {
-    int num;
+    int data;
     struct heapElement* parent;
     struct heapElement* left;
     struct heapElement* right;
@@ -15,11 +16,11 @@ HeapElement BuildHeapElement(int i) {
   ele.parent = &parent;
   ele.left = &left;
   ele.right = &right;
-  ele.num = i;
+  ele.data = i;
 
-  parent.num = ((i+1) / 2)-1;
-  left.num = (2 * (i+1))-1;
-  right.num = (2 * (i+1) + 1)-1;
+  parent.data = ((i+1) / 2)-1;
+  left.data = (2 * (i+1))-1;
+  right.data = (2 * (i+1) + 1)-1;
 
   return ele;
 }
@@ -33,11 +34,10 @@ void Swap(int A[], int i, int largest) {
 void Heapify(int A[], int i, int heapSize) {
   HeapElement ele = BuildHeapElement(i);
 
-  int p, l, r, largest;
+  int l, r, largest;
 
-  p = ele.parent->num;
-  l = ele.left->num;
-  r = ele.right->num;
+  l = ele.left->data;
+  r = ele.right->data;
 
   if(l < heapSize && A[l] > A[i]) {
     largest = l;
@@ -119,9 +119,19 @@ void HeapSort(int A[], int N) {
   }
 }
 
-int main() {
-  int A[] = {3,8,10,11,6,9,4,2,5};
-  int N = sizeof(A) / sizeof(int);
-
+int main(int argc, char **argv) {
+  int *A;
+  int N;
+  if (argc > 1) {
+    N = argc-1;
+    A = malloc(N * sizeof(int));
+    for(int i=1; i<argc; i++) {
+      A[i-1] = (int)atoi(argv[i]);
+    }
+  } else {
+    int a[] = {3,8,10,11,6,9,4,2,5};
+    N = sizeof(a) / sizeof(int);
+    A = &a;
+  }
   HeapSort(A, N);
 }
