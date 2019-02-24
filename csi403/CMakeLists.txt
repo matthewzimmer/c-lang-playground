@@ -1,3 +1,5 @@
 add_executable(hw2_prob3 hw2_prob3.c)
+add_executable(hw2_p4 hw2_p4.c)
 add_executable(heapify heapify.c)
 add_executable(tree tree.c)
+add_executable(linked_list_mergesort linked_list_mergesort.c)
