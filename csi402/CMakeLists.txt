@@ -1,1 +1,7 @@
 add_executable(incswap increment_and_swap.c)
+add_executable(arrays_pointers arrays_pointers.c)
+add_executable(array_names_are_const array_names_are_const.c)
+add_executable(heap_memory heap_memory.c)
+add_executable(memory_management memory_management.c)
+add_executable(dynamic_arrays dynamic_arrays.c)
+add_executable(dynamic_strings dynamic_strings.c)
