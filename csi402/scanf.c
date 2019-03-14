@@ -5,60 +5,80 @@
 #include <stdlib.h>
 #include <memory.h>
 
-int receiveCommand() {
+struct command {
+    // a = Add
+    // r = remove
+    // p = print
+    // s = save file
+    // l = load file
+    // q = quit
+    char cmd;
 
+    union {
+        int item;
+        char *filepath;
+    };
+
+};
+
+void receiveCommand(struct command *cmd) {
+    char c;
+    char *item[1000];
+    char *end;
+
+    printf("\n> ");
+    scanf(" %c %s", &c, item);
+
+    cmd->cmd = c;
+
+    switch(c) {
+        case 'a':
+        case 'r':
+            cmd->item = strtol(item, &end, 10);
+            break;
+        case 's':
+        case 'l':
+            cmd->filepath = item;
+            break;
+    }
 }
 
 int run() {
-    char c;
-    char item[1000];
+    struct command cmd;
+    receiveCommand(&cmd);
 
-    char *end;
-    long val;
-
-    while(c != 'q') {
-        printf("\n> ");
-        scanf("%c %s", &c, &item);
-//        printf("You entered %c %d\n", c, data);
-
-        switch(c) {
-            case 'a':
-                val = strtol(item, &end, 10);
-                printf("ADD integer %d to knapsack (using KnapsackAdd(%d))", val);
-                break;
-            case 'r':
-                val = strtol(item, &end, 10);
-                printf("REMOVE integer %d from knapsack (using KnapsackRemove())", val);
-                break;
-            case 'p':
-                printf("PRINT knapsack contents (using KnapsackPrint())");
-                break;
-            case 'f':
-                printf("save knapsack in a file named F (using KnapsackRemove())", item);
-                break;
-            default:
-                printf("Invalid command entered: %s", c);
-                break;
-        }
-
-        c = '\0';
-        end = NULL;
-        val = 0;
-        memset(item, 0, sizeof item);
+    switch(cmd.cmd) {
+        case 'a':
+            printf("ADD integer %d to knapsack (using KnapsackAdd())", cmd.item);
+            break;
+        case 'r':
+            printf("REMOVE integer %d from knapsack (using KnapsackRemove())", cmd.item);
+            break;
+        case 'p':
+            printf("PRINT knapsack contents (using KnapsackPrint())");
+            break;
+        case 's':
+            printf("save knapsack in a file named '%s' (using KnapsackRemove())", cmd.filepath);
+            break;
+        case 'l':
+            printf("load knapsack from a previously-stored file named '%s'", cmd.filepath);
+            break;
+        case 'q':
+            printf("Quit program");
+            return 0;
+            break;
+        default:
+            printf("Invalid command entered: %c", cmd.cmd);
+            break;
     }
 
-    return 0;
+    return 1;
 }
 
 int main() {
-//    char c = 'a';
-//    int n = 0;
-
-//    printf("Enter a character: ");
-//    scanf("%c %d", &c, &n);
-//    printf("You entered %c %d\n", c, n);
-
-    int result = run();
-
-    return result;
+    int loop = 1;
+    while(loop) {
+        loop = run();
+    }
+    exit(0);
 }
